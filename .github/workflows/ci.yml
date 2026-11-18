@@ -9,9 +9,10 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  test-api:
+    # Windows: the API uses DPAPI-protected keys and runs as a Windows service.
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
 
@@ -19,15 +20,22 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Test API
+        working-directory: server
+        run: dotnet test --configuration Release
+
+  build-ui:
+    # Linux: on Windows the Angular CLI's esbuild service can keep `ng build` from exiting.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: npm
           cache-dependency-path: client/package-lock.json
-
-      - name: Test API
-        working-directory: server
-        run: dotnet test --configuration Release
 
       - name: Use npm 11.6.0 (the version that wrote package-lock.json)
         run: npm install -g npm@11.6.0
