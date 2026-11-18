@@ -1,0 +1,360 @@
+/* Shared UI components (mx- classes): cards, buttons, forms, tables, menus, modals. */
+/* ==========================================================================
+   Standard UI components
+   Import AFTER theme.css in each app's global styles.
+   Prefix: mx-.  Built on the --sa-* tokens; adds spacing/radius/control tokens.
+   ========================================================================== */
+
+/* ── Tokens ── */
+:root, .light-theme {
+  --mx-space-1: 4px;  --mx-space-2: 8px;  --mx-space-3: 12px;
+  --mx-space-4: 16px; --mx-space-5: 20px; --mx-space-6: 24px; --mx-space-8: 32px;
+  --mx-radius: 8px;
+  --mx-radius-lg: 12px;
+  --mx-control-h: 40px;
+  --mx-control-h-sm: 32px;
+  --mx-focus-ring: 0 0 0 3px color-mix(in srgb, var(--sa-primary) 30%, transparent);
+
+  /* Primary as TEXT must be readable on white; --sa-primary is a fill colour. */
+  --mx-primary-text: #1667A8;
+  --mx-on-primary: #ffffff;
+
+  --mx-surface-2: #f8fafc;       /* table header, zebra, hover */
+  --mx-hover: rgba(15, 23, 42, 0.04);
+  --mx-border-strong: #cbd5e1;
+  --mx-overlay: rgba(15, 23, 42, 0.5);
+
+  /* Semantic status colours (chips) */
+  --mx-success-bg: #dcfce7; --mx-success-fg: #166534;
+  --mx-warning-bg: #fef3c7; --mx-warning-fg: #92400e;
+  --mx-danger-bg:  #fee2e2; --mx-danger-fg:  #991b1b;
+  --mx-info-bg:    #dbeafe; --mx-info-fg:    #1e40af;
+  --mx-neutral-bg: #f1f5f9; --mx-neutral-fg: #475569;
+}
+
+.dark-theme {
+  --mx-primary-text: var(--sa-primary);
+  --mx-on-primary: #0b1220;
+  --mx-surface-2: #202020;
+  --mx-hover: rgba(255, 255, 255, 0.05);
+  --mx-border-strong: rgba(255, 255, 255, 0.18);
+  --mx-overlay: rgba(0, 0, 0, 0.65);
+
+  --mx-success-bg: #14321f; --mx-success-fg: #86efac;
+  --mx-warning-bg: #33280a; --mx-warning-fg: #fcd34d;
+  --mx-danger-bg:  #3a1a1a; --mx-danger-fg:  #fca5a5;
+  --mx-info-bg:    #16263f; --mx-info-fg:    #93c5fd;
+  --mx-neutral-bg: #2a2a2a; --mx-neutral-fg: #d4d4d4;
+}
+
+/* ── Page header ── */
+.mx-page-header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--mx-space-4); flex-wrap: wrap;
+  margin-bottom: var(--mx-space-6);
+}
+.mx-page-header > div:first-child { min-width: 0; }
+.mx-page-header h1, .mx-page-header .mx-title { margin: 0; font-size: 1.5rem; font-weight: 700; line-height: 1.3; color: var(--sa-text-primary); }
+.mx-page-header .mx-subtitle, .mx-page-header p { margin: 4px 0 0; font-size: 0.9rem; color: var(--sa-text-secondary); }
+.mx-page-header .mx-actions { display: flex; align-items: center; gap: var(--mx-space-2); flex-wrap: wrap; }
+
+/* ── Card ── */
+.mx-card {
+  background: var(--sa-surface); color: var(--sa-text-primary);
+  border: 1px solid var(--sa-border); border-radius: var(--mx-radius-lg);
+  padding: var(--mx-space-5); box-shadow: none;
+}
+.mx-card > h2, .mx-card > h3, .mx-card .mx-card-title { margin: 0 0 var(--mx-space-3); font-size: 1rem; font-weight: 600; color: var(--sa-text-primary); }
+.mx-card.flush { padding: 0; overflow: hidden; }
+/* A whole card that is a link: no underlined text, normal text colour. */
+a.mx-card { display: block; text-decoration: none; }
+
+/* ── Buttons ── */
+.mx-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: var(--mx-control-h); padding: 0 var(--mx-space-4);
+  border: 1px solid transparent; border-radius: var(--mx-radius);
+  font: inherit; font-size: 0.875rem; font-weight: 600; line-height: 1; white-space: nowrap;
+  text-decoration: none; cursor: pointer; user-select: none;
+  background: var(--sa-primary); color: var(--mx-on-primary);
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease, opacity .15s ease;
+}
+.mx-btn:hover { filter: brightness(0.94); }
+.mx-btn:focus-visible { outline: none; box-shadow: var(--mx-focus-ring); }
+.mx-btn:disabled, .mx-btn[aria-disabled="true"] { opacity: .5; cursor: not-allowed; filter: none; }
+.mx-btn.primary { background: var(--sa-primary); color: var(--mx-on-primary); }
+.mx-btn.secondary, .mx-btn.outline {
+  background: transparent; color: var(--sa-text-primary); border-color: var(--mx-border-strong);
+}
+.mx-btn.secondary:hover, .mx-btn.outline:hover { background: var(--mx-hover); filter: none; }
+.mx-btn.ghost { background: transparent; color: var(--sa-text-secondary); }
+.mx-btn.ghost:hover { background: var(--mx-hover); color: var(--sa-text-primary); filter: none; }
+.mx-btn.danger { background: var(--sa-danger); color: #fff; }
+.mx-btn.sm { height: var(--mx-control-h-sm); padding: 0 var(--mx-space-3); font-size: 0.8125rem; }
+.mx-btn mx-icon, .mx-btn .material-symbols-outlined { --mx-icon-size: 18px; font-size: 18px; }
+
+/* ── Forms ── */
+.mx-form { display: grid; gap: var(--mx-space-4); grid-template-columns: 1fr; }
+@media (min-width: 640px)  { .mx-form.cols-2, .mx-form.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .mx-form.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mx-form .span-all { grid-column: 1 / -1; }
+.mx-form-actions { grid-column: 1 / -1; display: flex; gap: var(--mx-space-2); justify-content: flex-end; flex-wrap: wrap; }
+/* Buttons placed side by side in a table cell (row actions): always spaced, never touching. */
+.mx-row-actions { display: flex; gap: var(--mx-space-2); flex-wrap: nowrap; align-items: center; white-space: nowrap; }
+.mx-table td > .mx-btn + .mx-btn, .mx-table td > a.mx-btn + .mx-btn, .mx-table td > .mx-btn + a.mx-btn { margin-left: var(--mx-space-2); }
+/* Buttons placed side by side in ordinary (non-flex) markup never touch. Containers that space their children with
+   `gap` are reset below so they do not get double spacing. */
+.mx-btn + .mx-btn, .mx-btn + span > .mx-btn:first-child { margin-left: var(--mx-space-2); }
+:is(.mx-actions, .mx-row-actions, .mx-form-actions, .mx-modal-footer, .mx-segmented, .mx-confirm-actions, .mx-msg-actions, .mx-page-header) > .mx-btn + .mx-btn,
+:is([class*="-actions"], [class*="-quick"], [class*="-bulk"]) > .mx-btn + .mx-btn { margin-left: 0; }
+/* File pickers: style the browser's "Choose File" button like a secondary button. */
+input[type="file"] { font: inherit; font-size: .85rem; color: var(--sa-text-secondary); max-width: 100%; }
+input[type="file"]::file-selector-button {
+  font: inherit; font-size: .85rem; font-weight: 600; margin-right: 10px; padding: 6px 14px; cursor: pointer;
+  border: 1px solid var(--mx-border-strong, var(--sa-border)); border-radius: var(--mx-radius, 8px);
+  background: var(--sa-surface); color: var(--sa-text-primary); transition: background .15s ease;
+}
+input[type="file"]::file-selector-button:hover { background: var(--mx-surface-2); }
+
+.mx-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.mx-field > label, .mx-field .mx-label { font-size: 0.8125rem; font-weight: 600; color: var(--sa-text-secondary); }
+.mx-field .mx-help  { font-size: 0.78rem; color: var(--sa-text-muted); }
+.mx-field .mx-error { font-size: 0.78rem; color: var(--sa-danger); }
+.mx-field.invalid input, .mx-field.invalid select, .mx-field.invalid textarea { border-color: var(--sa-danger); }
+
+/* Native controls only: Material's inner inputs (.mat-mdc-input-element, mat-select) keep
+   Material's outline field, otherwise they render as a box inside a box. */
+.mx-field input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=color]):not(.mat-mdc-input-element),
+.mx-field select:not(.mat-mdc-input-element), .mx-field textarea:not(.mat-mdc-input-element),
+input.mx-input, select.mx-input, textarea.mx-input {
+  width: 100%; height: var(--mx-control-h); padding: 0 var(--mx-space-3);
+  font: inherit; font-size: 0.875rem; color: var(--sa-text-primary);
+  background: var(--sa-surface); border: 1px solid var(--mx-border-strong); border-radius: var(--mx-radius);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.mx-field textarea:not(.mat-mdc-input-element), textarea.mx-input { height: auto; min-height: 88px; padding: var(--mx-space-2) var(--mx-space-3); resize: vertical; }
+.mx-field select, select.mx-input { padding-right: var(--mx-space-2); }
+.mx-field input::placeholder, .mx-field textarea::placeholder { color: var(--sa-text-muted); }
+.mx-field input:not(.mat-mdc-input-element):focus, .mx-field select:not(.mat-mdc-input-element):focus, .mx-field textarea:not(.mat-mdc-input-element):focus,
+.mx-input:focus { outline: none; border-color: var(--sa-primary); box-shadow: var(--mx-focus-ring); }
+.mx-field input:not(.mat-mdc-input-element):disabled, .mx-field select:not(.mat-mdc-input-element):disabled, .mx-field textarea:not(.mat-mdc-input-element):disabled { opacity: .6; background: var(--mx-surface-2); cursor: not-allowed; }
+/* Read-only fields (filled in by the system, e.g. employee name on a form) look different from editable ones:
+   muted fill, softer text, no focus highlight. Date inputs that are typed-locked but still have a picker are excluded. */
+.mx-field input[readonly]:not(.mat-mdc-input-element):not(.mat-datepicker-input), .mx-field textarea[readonly]:not(.mat-mdc-input-element), .mx-input[readonly]:not(.mat-datepicker-input) {
+  background: var(--sa-background); color: var(--sa-text-secondary); border-style: dashed; border-color: var(--sa-text-muted); cursor: default; box-shadow: none;
+}
+.dark-theme .mx-field select option { background: var(--sa-surface); color: var(--sa-text-primary); }
+.mx-check { display: inline-flex; align-items: center; gap: var(--mx-space-2); font-size: 0.875rem; color: var(--sa-text-primary); cursor: pointer; }
+
+/* ── Tables ── */
+.mx-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.mx-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; color: var(--sa-text-primary); }
+.mx-table th {
+  text-align: left; padding: 10px var(--mx-space-4); white-space: nowrap;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--sa-text-secondary); background: var(--mx-surface-2); border-bottom: 1px solid var(--sa-border);
+}
+.mx-table td { padding: 12px var(--mx-space-4); border-bottom: 1px solid var(--sa-border); vertical-align: middle; }
+.mx-table tbody tr:last-child td { border-bottom: 0; }
+.mx-table tbody tr:hover td { background: var(--mx-hover); }
+.mx-table.zebra tbody tr:nth-child(even) td { background: var(--mx-surface-2); }
+.mx-table.zebra tbody tr:hover td { background: var(--mx-hover); }
+.mx-table.compact th { padding: 6px var(--mx-space-3); }
+.mx-table.compact td { padding: 6px var(--mx-space-3); }
+.mx-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ── Chips ── */
+.mx-chip {
+  display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 10px;
+  border-radius: 999px; font-size: 0.75rem; font-weight: 600; line-height: 1; white-space: nowrap;
+  background: var(--mx-neutral-bg); color: var(--mx-neutral-fg);
+}
+.mx-chip.neutral { background: var(--mx-neutral-bg); color: var(--mx-neutral-fg); }
+.mx-chip.success { background: var(--mx-success-bg); color: var(--mx-success-fg); }
+.mx-chip.warning { background: var(--mx-warning-bg); color: var(--mx-warning-fg); }
+.mx-chip.danger  { background: var(--mx-danger-bg);  color: var(--mx-danger-fg); }
+.mx-chip.info    { background: var(--mx-info-bg);    color: var(--mx-info-fg); }
+
+/* ── Modal ── (markup: .mx-modal > .mx-modal-dialog > header / body / footer) */
+.mx-modal {
+  position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+  padding: var(--mx-space-4); background: var(--mx-overlay);
+}
+.mx-modal-dialog {
+  width: 100%; max-width: 520px; max-height: calc(100vh - 32px); display: flex; flex-direction: column;
+  background: var(--sa-surface); color: var(--sa-text-primary);
+  border: 1px solid var(--sa-border); border-radius: var(--mx-radius-lg); box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
+}
+.mx-modal-dialog.wide { max-width: 760px; }
+.mx-modal-header { display: flex; align-items: center; justify-content: space-between; gap: var(--mx-space-3); padding: var(--mx-space-4) var(--mx-space-5); border-bottom: 1px solid var(--sa-border); }
+.mx-modal-header h2, .mx-modal-header h3 { margin: 0; font-size: 1.05rem; font-weight: 600; }
+.mx-modal-body { padding: var(--mx-space-5); overflow-y: auto; }
+/* One footer bar per dialog: the dialog-level buttons (Close / Cancel + the main action), on one line, right-aligned,
+   main action last. Buttons that act on a section inside the body (Add, Save this tab…) stay in that section. */
+.mx-modal-footer {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--mx-space-2);
+  flex-shrink: 0; padding: var(--mx-space-3) var(--mx-space-5); border-top: 1px solid var(--sa-border);
+}
+/* Something for the left end of the footer (a hint, a destructive action). */
+.mx-modal-footer > .mx-footer-start { margin-right: auto; }
+/* Dialogs that end their body with the button row instead of a .mx-modal-footer get the same footer bar:
+   divider above, pinned to the bottom while the body scrolls. */
+.mx-modal-body > .mx-form-actions:last-child,
+.mx-modal-body > form:last-child > .mx-form-actions:last-child {
+  position: sticky; bottom: 0; z-index: 1;
+  margin: var(--mx-space-5) calc(-1 * var(--mx-space-5)) calc(-1 * var(--mx-space-5));
+  padding: var(--mx-space-3) var(--mx-space-5); align-items: center;
+  background: var(--sa-surface); border-top: 1px solid var(--sa-border);
+  border-radius: 0 0 var(--mx-radius-lg) var(--mx-radius-lg);
+}
+
+/* ── Empty state ── */
+.mx-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--mx-space-2); padding: var(--mx-space-8) var(--mx-space-4); color: var(--sa-text-secondary); }
+.mx-empty > mx-icon, .mx-empty > .material-symbols-outlined { --mx-icon-size: 40px; font-size: 40px; color: var(--sa-text-muted); }
+.mx-empty h3 { margin: 0; font-size: 1rem; color: var(--sa-text-primary); }
+.mx-empty p { margin: 0; font-size: 0.875rem; }
+
+/* ── Misc helpers ── */
+.mx-stack { display: flex; flex-direction: column; gap: var(--mx-space-4); }
+.mx-row { display: flex; align-items: center; gap: var(--mx-space-2); flex-wrap: wrap; }
+.mx-muted { color: var(--sa-text-muted); }
+.mx-grid { display: grid; gap: var(--mx-space-4); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+
+/* ── Tabs ── markup: <div class="mx-tabs" role="tablist"><button class="mx-tab active" role="tab" aria-selected="true">..</button></div>
+   Also styles <a class="mx-tab" routerLinkActive="active">. Active = .active or [aria-selected=true]. */
+.mx-tabs {
+  display: flex; gap: var(--mx-space-1); overflow-x: auto; overflow-y: hidden; scrollbar-width: none;
+  border-bottom: 1px solid var(--sa-border); -webkit-overflow-scrolling: touch;
+}
+.mx-tabs::-webkit-scrollbar { display: none; }
+.mx-tab {
+  position: relative; flex: none; display: inline-flex; align-items: center; gap: 6px; height: var(--mx-control-h);
+  padding: 0 var(--mx-space-3); margin: 0; border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  font: inherit; font-size: .875rem; font-weight: 500; text-decoration: none; color: var(--sa-text-secondary);
+  border-radius: var(--mx-radius) var(--mx-radius) 0 0; transition: color .15s ease, background-color .15s ease;
+}
+.mx-tab:hover { color: var(--sa-text-primary); background: var(--mx-hover); }
+.mx-tab:focus-visible { outline: none; box-shadow: inset var(--mx-focus-ring); }
+.mx-tab::after { content: ''; position: absolute; left: var(--mx-space-2); right: var(--mx-space-2); bottom: -1px; height: 2px; border-radius: 2px; background: transparent; }
+.mx-tab.active, .mx-tab[aria-selected="true"] { color: var(--mx-primary-text); font-weight: 600; }
+.mx-tab.active::after, .mx-tab[aria-selected="true"]::after { background: var(--sa-primary); }
+.mx-tab:disabled, .mx-tab[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+.mx-tab mx-icon, .mx-tab .material-symbols-outlined { --mx-icon-size: 18px; font-size: 18px; }
+
+/* ── Segmented buttons ── markup: <div class="mx-segmented" role="group"><button class="active" aria-pressed="true">Day</button>..</div> */
+.mx-segmented { display: inline-flex; padding: 2px; gap: 2px; border: 1px solid var(--mx-border-strong); border-radius: var(--mx-radius); background: var(--mx-surface-2); }
+.mx-segmented > button, .mx-segmented > a, .mx-segmented > .mx-seg {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: calc(var(--mx-control-h-sm) - 6px); min-width: 32px;
+  padding: 0 var(--mx-space-3); border: 0; border-radius: 6px; background: transparent; cursor: pointer; white-space: nowrap;
+  font: inherit; font-size: .8125rem; font-weight: 500; text-decoration: none; color: var(--sa-text-secondary);
+}
+.mx-segmented > :hover { color: var(--sa-text-primary); }
+.mx-segmented > :focus-visible { outline: none; box-shadow: var(--mx-focus-ring); }
+.mx-segmented > .active, .mx-segmented > [aria-pressed="true"], .mx-segmented > [aria-selected="true"] {
+  background: var(--sa-surface); color: var(--sa-text-primary); font-weight: 600; box-shadow: 0 0 0 1px var(--sa-border);
+}
+.mx-segmented > :disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── Stat / KPI tile ── markup: <div class="mx-stats"><div class="mx-stat"><mx-icon name="group"/>
+   <div class="mx-stat-value">42</div><div class="mx-stat-label">Employees</div><span class="mx-chip mx-stat-delta success">+3</span></div></div> */
+.mx-stats { display: grid; gap: var(--mx-space-4); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.mx-stat {
+  position: relative; display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: var(--mx-space-4) var(--mx-space-5);
+  background: var(--sa-surface); color: var(--sa-text-primary); border: 1px solid var(--sa-border); border-radius: var(--mx-radius-lg);
+}
+.mx-stat > mx-icon, .mx-stat > .material-symbols-outlined { --mx-icon-size: 20px; font-size: 20px; align-self: flex-start; margin-bottom: var(--mx-space-2); color: var(--sa-text-muted); }
+.mx-stat .mx-stat-value { font-size: 1.5rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; color: var(--sa-text-primary); }
+.mx-stat .mx-stat-label { font-size: .8125rem; color: var(--sa-text-secondary); }
+.mx-stat .mx-stat-delta { align-self: flex-start; height: 20px; padding: 0 8px; margin-top: var(--mx-space-2); font-size: .6875rem; }
+
+/* ── Alert / banner ── markup: <div class="mx-alert warning" role="alert"><mx-icon name="warning"/>
+   <div class="mx-alert-body"><strong>Title</strong> text</div><div class="mx-alert-actions"><button class="mx-btn sm ghost">Fix</button></div></div> */
+.mx-alert {
+  --_a-bg: var(--mx-info-bg); --_a-fg: var(--mx-info-fg);
+  display: flex; align-items: flex-start; gap: var(--mx-space-3); padding: var(--mx-space-3) var(--mx-space-4);
+  border: 1px solid color-mix(in srgb, var(--_a-fg) 22%, transparent); border-radius: var(--mx-radius);
+  background: var(--_a-bg); color: var(--_a-fg); font-size: .875rem; line-height: 1.45;
+}
+.mx-alert.info    { --_a-bg: var(--mx-info-bg);    --_a-fg: var(--mx-info-fg); }
+.mx-alert.success { --_a-bg: var(--mx-success-bg); --_a-fg: var(--mx-success-fg); }
+.mx-alert.warning { --_a-bg: var(--mx-warning-bg); --_a-fg: var(--mx-warning-fg); }
+.mx-alert.danger  { --_a-bg: var(--mx-danger-bg);  --_a-fg: var(--mx-danger-fg); }
+.mx-alert > mx-icon, .mx-alert > .material-symbols-outlined { --mx-icon-size: 20px; font-size: 20px; margin-top: 1px; }
+.mx-alert .mx-alert-body { flex: 1; min-width: 0; }
+.mx-alert .mx-alert-body strong { font-weight: 600; }
+.mx-alert .mx-alert-actions { display: flex; align-items: center; gap: var(--mx-space-2); flex-wrap: wrap; margin-left: auto; }
+.mx-alert .mx-btn.ghost { color: inherit; }
+
+/* ── Skeleton ── */
+.mx-skeleton { display: block; height: 14px; border-radius: 6px; background: var(--mx-border-strong); opacity: .35; animation: mx-pulse 1.4s ease-in-out infinite; }
+@keyframes mx-pulse { 50% { opacity: .15; } }
+@media (prefers-reduced-motion: reduce) { .mx-skeleton { animation: none; } }
+
+/* ── Shell chrome (app-shell) ── moved out of the component stylesheet to stay inside its size budget. */
+app-shell .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+app-shell .brand-logo { height: 28px; width: auto; object-fit: contain; }
+app-shell .brand-char { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; color: var(--sa-text-primary); border: 1px solid var(--sa-border); border-radius: 8px; }
+app-shell .brand-name { font-size: 1rem; font-weight: 700; color: var(--sa-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -.2px; }
+app-shell .icon-btn {
+  position: relative; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 8px; background: transparent; color: var(--sa-text-secondary); cursor: pointer;
+}
+app-shell .icon-btn:hover { background: var(--shell-item-hover); color: var(--sa-text-primary); }
+app-shell .icon-btn:focus-visible, app-shell .user-btn:focus-visible,
+app-shell .group-head:focus-visible, app-shell .nav-link:focus-visible { outline: none; box-shadow: var(--_focus); }
+app-shell .dot-badge {
+  position: absolute; top: 3px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px;
+  background: var(--sa-danger); color: #fff; font-size: 10px; font-weight: 700; line-height: 16px; text-align: center;
+}
+app-shell .user-btn {
+  display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 8px 0 4px; margin-left: 4px;
+  border: 1px solid var(--sa-border); border-radius: 18px; background: transparent; color: var(--sa-text-secondary); cursor: pointer;
+}
+app-shell .user-btn:hover { background: var(--shell-item-hover); }
+app-shell .avatar { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--sa-text-primary); background: var(--shell-item-hover); border: 1px solid var(--sa-border); }
+app-shell .user-name { font-size: .85rem; font-weight: 600; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Apps menu: small drop-down on hover (or keyboard focus) listing related apps. */
+app-shell .apps-wrap { position: relative; display: inline-flex; }
+app-shell .apps-pop {
+  position: absolute; top: 100%; right: 0; z-index: 1100; min-width: 230px; padding: 6px; margin-top: 6px;
+  background: var(--sa-surface); border: 1px solid var(--sa-border); border-radius: 10px; box-shadow: var(--sa-card-shadow);
+  opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .12s ease, transform .12s ease, visibility 0s linear .12s;
+}
+app-shell .apps-wrap::after { content: ''; position: absolute; top: 100%; left: -40px; right: 0; height: 8px; } /* hover bridge */
+app-shell .apps-wrap:hover .apps-pop, app-shell .apps-wrap:focus-within .apps-pop {
+  opacity: 1; visibility: visible; transform: none; transition: opacity .12s ease, transform .12s ease;
+}
+app-shell .apps-title { padding: 6px 10px 4px; font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--sa-text-muted); }
+app-shell .apps-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px;
+  color: var(--sa-text-secondary); text-decoration: none; font-size: .875rem; white-space: nowrap;
+}
+app-shell .apps-item:hover, app-shell .apps-item:focus-visible { background: var(--shell-item-hover); color: var(--sa-text-primary); outline: none; }
+app-shell .apps-item.current { color: var(--sa-primary, #1B75BB); font-weight: 600; }
+app-shell .apps-ico { width: 30px; height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: var(--shell-item-hover); flex: none; }
+app-shell .group-head {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; margin: 0;
+  border: 0; border-radius: 6px; background: transparent; cursor: pointer; text-align: left;
+  font: inherit; font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--sa-text-muted);
+}
+app-shell .group-head:hover { color: var(--sa-text-secondary); }
+app-shell .group-head.static { cursor: default; }
+app-shell .group-head.static:hover { color: var(--sa-text-muted); }
+app-shell .nav-badge {
+  min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; font-size: .7rem; font-weight: 700; line-height: 20px; text-align: center;
+  background: var(--sa-danger); color: #fff;
+}
+app-shell .nav-skel { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 10px; }
+app-shell .nav-skel .mx-skeleton:first-child { width: 20px; height: 20px; flex: none; }
+app-shell .nav-skel .mx-skeleton:last-child { flex: 1; }
+
+/* mxConfirm(): styled yes/no dialog replacing the browser confirm(). */
+.mx-confirm-backdrop { position: fixed; inset: 0; z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(15, 23, 42, .45); animation: mx-confirm-fade .12s ease-out; }
+.mx-confirm { width: min(440px, 100%); background: var(--sa-surface); color: var(--sa-text-primary); border: 1px solid var(--sa-border);
+  border-radius: 12px; box-shadow: 0 18px 48px rgba(0, 0, 0, .25); padding: 20px 20px 16px; animation: mx-confirm-in .14s ease-out; }
+.mx-confirm-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+.mx-confirm-text { font-size: .92rem; line-height: 1.45; color: var(--sa-text-secondary); white-space: pre-line; word-break: break-word; }
+.mx-confirm-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+@keyframes mx-confirm-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mx-confirm-in { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: none; } }

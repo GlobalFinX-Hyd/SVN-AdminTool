@@ -1,0 +1,84 @@
+/* Design tokens: colours, surfaces and sizes for light and dark mode. */
+/* ── Light Mode / Global Tokens ── */
+:root, .light-theme {
+  /* Brand Colors */
+  --sa-primary:         #1B75BB; /* Global Fin X blue */
+  --sa-accent:          #F7941D; /* Global Fin X orange */
+  --sa-navy:            #0B3157; /* Global Fin X navy */
+  --sa-success:         #2E7D32;
+  --sa-danger:          #D32F2F;
+  --sa-warning:         #F57C00;
+  --sa-background:      #F4F7F9;
+  --sa-surface:         #FFFFFF;
+  --sa-border:          #e2e8f0;
+  
+  /* Text Colors */
+  --sa-text-primary:    #0B3157;
+  --sa-text-secondary:  #475569;
+  --sa-text-muted:      #94a3b8;
+  
+  /* Drop shadow & styling */
+  --sa-card-shadow:     0 2px 8px rgba(0, 0, 0, 0.08);
+  --sa-glass-blur:      blur(25px);
+
+  /* Shell-specific tokens */
+  --shell-bg:               #f8fafc;
+  --shell-sidebar-bg:       rgba(255, 255, 255, 0.75);
+  --shell-sidebar-border:   rgba(255, 255, 255, 0.45);
+  --shell-sidebar-active:   rgba(27, 117, 187, 0.10);
+  --shell-item-hover:       rgba(27, 117, 187, 0.05);
+  --shell-header-bg:        rgba(255, 255, 255, 0.75);
+  --shell-header-border:    rgba(255, 255, 255, 0.35);
+  --shell-pill-bg:          #ffffff;
+  --shell-pill-border:      #f1f5f9;
+  --shell-pill-hover:       #f8fafc;
+  --shell-btn-toggle-bg:    #ffffff;
+  --shell-btn-toggle-border: #e2e8f0;
+
+  /* Layout and sizes */
+  --sidebar-width:          260px;
+  --topbar-height:          64px;
+  --sa-control-height:  44px;
+  color-scheme: light;
+}
+
+/* ── Dark Mode Tokens (neutral greys / black — no blue tints) ── */
+.dark-theme {
+  /* Brand Colors (foregrounds only — backgrounds stay neutral) */
+  --sa-primary:         #29A9E0; /* Global Fin X sky blue */
+  --sa-accent:          #F7941D;
+  --sa-navy:            #e5e5e5; /* Light neutral for legacy text refs */
+  --sa-success:         #81c784;
+  --sa-danger:          #e57373;
+  --sa-warning:         #ffb74d;
+  --sa-background:      #0a0a0a; /* Near-black page background */
+  --sa-surface:         #1a1a1a; /* Dark grey card surface */
+  --sa-border:          rgba(255, 255, 255, 0.08);
+
+  /* Text Colors */
+  --sa-text-primary:    #f5f5f5; /* Crisp neutral white */
+  --sa-text-secondary:  #d4d4d4; /* Secondary grey */
+  --sa-text-muted:      #737373; /* Muted grey */
+
+  /* Drop shadow & styling */
+  --sa-card-shadow:     0 8px 32px rgba(0, 0, 0, 0.45);
+  --sa-glass-blur:      blur(25px);
+
+  /* Shell-specific tokens (all neutral greys) */
+  --shell-bg:               #0a0a0a;
+  --shell-sidebar-bg:       #141414;
+  --shell-sidebar-border:   rgba(255, 255, 255, 0.06);
+  --shell-sidebar-active:   rgba(255, 255, 255, 0.08);
+  --shell-item-hover:       rgba(255, 255, 255, 0.04);
+  --shell-header-bg:        #141414;
+  --shell-header-border:    rgba(255, 255, 255, 0.06);
+  --shell-pill-bg:          #262626;
+  --shell-pill-border:      rgba(255, 255, 255, 0.08);
+  --shell-pill-hover:       #2e2e2e;
+  --shell-btn-toggle-bg:    #1a1a1a;
+  --shell-btn-toggle-border: rgba(255, 255, 255, 0.08);
+
+  color-scheme: dark;
+}
+
+body { background-color: var(--sa-background); color: var(--sa-text-primary); transition: background-color .3s ease, color .3s ease; }

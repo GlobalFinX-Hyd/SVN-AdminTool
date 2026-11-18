@@ -1,0 +1,24 @@
+# .NET
+server/*/bin/
+server/*/obj/
+server/SvnAdmin.Api/wwwroot/
+*.user
+.vs/
+
+# Angular
+client/node_modules/
+client/.angular/
+client/dist/
+
+# Build output
+publish/
+
+# Local settings and runtime data
+appsettings.Local.json
+dev-data/svnadmin.db*
+dev-data/keys/
+dev-data/mail/
+dev-data/Backups/
+dev-data/Archive/
+dev-data/config-history/
+dev-data/Repositories/

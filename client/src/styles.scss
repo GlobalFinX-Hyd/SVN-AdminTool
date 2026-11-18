@@ -1,0 +1,154 @@
+/* SvnAdmin global styles.
+   The look comes from the design system in styles/tokens.css + styles/components.css (mx- classes).
+   This file only adds the base reset and a few app-specific pieces in the same style. */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: .875rem; line-height: 1.5;
+}
+h1, h2, h3, h4 { color: var(--sa-text-primary); line-height: 1.3; }
+a { color: var(--mx-primary-text); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; }
+p { margin: 0 0 var(--mx-space-3); }
+hr { border: 0; border-top: 1px solid var(--sa-border); margin: var(--mx-space-4) 0; }
+
+code, .mono { font-family: 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace; font-size: .8125rem; }
+code { padding: 1px 5px; border-radius: 4px; background: var(--mx-surface-2); color: var(--sa-text-primary); border: 1px solid var(--sa-border); }
+pre.code {
+  margin: 0; padding: var(--mx-space-3); max-height: 60vh; overflow: auto; white-space: pre;
+  font-family: 'Cascadia Mono', Consolas, monospace; font-size: .8rem;
+  background: var(--mx-surface-2); border: 1px solid var(--sa-border); border-radius: var(--mx-radius);
+}
+kbd {
+  display: inline-block; padding: 1px 6px; font: 600 11px/1.6 inherit; color: var(--sa-text-secondary);
+  background: var(--sa-background); border: 1px solid var(--sa-border); border-bottom-width: 2px; border-radius: 4px;
+}
+
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pre-line { white-space: pre-line; }
+.small { font-size: .8125rem; }
+.nowrap { white-space: nowrap; }
+.right { text-align: right; }
+.grow { flex: 1; min-width: 0; }
+.text-danger { color: var(--sa-danger); }
+.text-success { color: var(--sa-success); }
+.text-warning { color: var(--sa-warning); }
+.text-secondary { color: var(--sa-text-secondary); }
+
+/* Toolbar under a page header: search box, filters. */
+.mx-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--mx-space-2); margin-bottom: var(--mx-space-4); }
+.mx-toolbar .mx-input, .mx-toolbar select.mx-input { width: auto; min-width: 180px; }
+.mx-search { position: relative; display: inline-flex; align-items: center; }
+.mx-search > mx-icon { position: absolute; left: 10px; color: var(--sa-text-muted); pointer-events: none; }
+.mx-search > input.mx-input { padding-left: 36px; min-width: 240px; }
+.mx-search > kbd { position: absolute; right: 8px; }
+
+/* Standalone inputs (outside .mx-field) look the same as field inputs. */
+input.mx-input, select.mx-input, textarea.mx-input {
+  height: var(--mx-control-h); padding: 0 var(--mx-space-3); font: inherit; font-size: .875rem;
+  color: var(--sa-text-primary); background: var(--sa-surface);
+  border: 1px solid var(--mx-border-strong); border-radius: var(--mx-radius); outline: none;
+}
+input.mx-input:focus, select.mx-input:focus, textarea.mx-input:focus { border-color: var(--sa-primary); box-shadow: var(--mx-focus-ring); }
+.mx-input.sm { height: var(--mx-control-h-sm); }
+
+/* Scrollable list of checkboxes (group members, user groups). */
+.mx-checklist { max-height: 260px; overflow-y: auto; padding: var(--mx-space-2) var(--mx-space-3); border: 1px solid var(--mx-border-strong); border-radius: var(--mx-radius); }
+.mx-checklist.cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 2px var(--mx-space-3); }
+.mx-check input { width: 16px; height: 16px; accent-color: var(--sa-primary); margin: 0; }
+
+/* Full-height list pages: the page fills the content area; only the main list (.fill) scrolls,
+   with its table header pinned. Pages opt in with host class "page-fill". Phones scroll normally. */
+.page-fill { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.page-fill > .fill { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.page-fill > .fill > .mx-table-wrap { flex: 1; min-height: 0; overflow: auto; }
+.page-fill > .fill-scroll { flex: 1; min-height: 0; overflow-y: auto; padding-bottom: 2px; }
+.page-fill > .fill-scroll > * { flex-shrink: 0; }
+.page-fill > .mx-page-header, .page-fill > .mx-toolbar, .page-fill > .mx-tabs, .page-fill > .mx-alert, .page-fill > .mx-bulk, .page-fill > .mx-row { flex-shrink: 0; }
+.page-fill > .mx-bulk { position: static; }
+.mx-table-wrap.scroll .mx-table th, .page-fill .mx-table-wrap .mx-table thead th { position: sticky; top: 0; z-index: 1; }
+@media (max-width: 899.98px) {
+  .page-fill { display: block; }
+  .page-fill > .fill > .mx-table-wrap, .page-fill > .fill-scroll { overflow: visible; }
+  .page-fill > .mx-bulk { position: sticky; }
+}
+.mx-table th.sortable { cursor: pointer; user-select: none; }
+.mx-table th.sortable:hover { color: var(--sa-text-primary); }
+.mx-table tr.selected td { background: color-mix(in srgb, var(--sa-primary) 8%, transparent); }
+.mx-table tr.dim td { opacity: .55; }
+.mx-table-footer { display: flex; align-items: center; gap: var(--mx-space-2); padding: 10px var(--mx-space-4); border-top: 1px solid var(--sa-border); font-size: .8125rem; color: var(--sa-text-secondary); }
+
+/* Bulk action bar shown when rows are selected. */
+.mx-bulk {
+  position: sticky; bottom: var(--mx-space-4); z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: var(--mx-space-2);
+  margin-top: var(--mx-space-3); padding: var(--mx-space-2) var(--mx-space-3);
+  background: var(--sa-surface); border: 1px solid var(--sa-border); border-radius: var(--mx-radius-lg); box-shadow: var(--sa-card-shadow);
+}
+
+/* Small icon-only buttons in table rows. */
+.mx-icon-btn {
+  display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 0;
+  border: 1px solid transparent; border-radius: var(--mx-radius); background: transparent; color: var(--sa-text-secondary); cursor: pointer;
+}
+.mx-icon-btn:hover { background: var(--mx-hover); color: var(--sa-text-primary); }
+.mx-icon-btn:focus-visible { outline: none; box-shadow: var(--mx-focus-ring); }
+.mx-icon-btn.danger:hover { color: var(--sa-danger); }
+.mx-icon-btn:disabled { opacity: .35; cursor: not-allowed; background: transparent; }
+
+/* Simple drop-down menu (user menu, "more" menus). */
+.mx-menu-wrap { position: relative; display: inline-flex; }
+.mx-menu {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: 1100; min-width: 220px; padding: 4px;
+  background: var(--sa-surface); border: 1px solid var(--sa-border); border-radius: 10px; box-shadow: var(--sa-card-shadow);
+}
+.mx-menu .menu-head { padding: 10px 12px; border-bottom: 1px solid var(--sa-border); margin-bottom: 4px; }
+.mx-menu .menu-name { font-weight: 600; color: var(--sa-text-primary); font-size: .9rem; }
+.mx-menu .menu-email { font-size: .78rem; color: var(--sa-text-muted); margin-top: 2px; }
+.mx-menu-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 12px; border: 0; border-radius: 6px;
+  background: transparent; color: var(--sa-text-secondary); font-size: .875rem; text-align: left; cursor: pointer; text-decoration: none;
+}
+.mx-menu-item:hover, .mx-menu-item:focus-visible { background: var(--shell-item-hover); color: var(--sa-text-primary); outline: none; text-decoration: none; }
+.mx-menu-item mx-icon { color: var(--sa-text-muted); }
+.mx-menu-item kbd { margin-left: auto; }
+.mx-menu-sep { height: 1px; margin: 4px 0; background: var(--sa-border); }
+
+/* Two-column key/value list (System page, details). */
+.mx-kv { display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: 6px var(--mx-space-4); margin: 0; font-size: .875rem; }
+.mx-kv dt { color: var(--sa-text-secondary); font-weight: 600; }
+.mx-kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+/* List rows inside a card (recent items, history). */
+.mx-list { list-style: none; margin: 0; padding: 0; }
+.mx-list > li { padding: 10px var(--mx-space-4); border-bottom: 1px solid var(--sa-border); }
+.mx-list > li:last-child { border-bottom: 0; }
+.mx-card-head { display: flex; align-items: center; gap: var(--mx-space-2); padding: 12px var(--mx-space-4); border-bottom: 1px solid var(--sa-border); }
+.mx-card-head h2 { margin: 0; font-size: 1rem; font-weight: 600; flex: 1; display: flex; align-items: center; gap: 8px; }
+
+/* Recovery codes and secret keys. */
+.mx-codes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px var(--mx-space-4); padding: var(--mx-space-3) var(--mx-space-4); margin: 0;
+  font-family: 'Cascadia Mono', Consolas, monospace; font-size: .95rem; background: var(--mx-surface-2); border: 1px dashed var(--mx-border-strong); border-radius: var(--mx-radius); }
+.mx-secret { font-family: 'Cascadia Mono', Consolas, monospace; letter-spacing: .08em; word-break: break-all; padding: 8px 10px; background: var(--mx-surface-2); border-radius: var(--mx-radius); border: 1px solid var(--sa-border); }
+
+/* Access grid cells. */
+.access { display: inline-flex; align-items: center; gap: 3px; min-width: 44px; justify-content: center; }
+.access-rw { background: var(--mx-success-bg); color: var(--mx-success-fg); }
+.access-r { background: var(--mx-info-bg); color: var(--mx-info-fg); }
+.access-none { background: var(--mx-neutral-bg); color: var(--sa-text-muted); }
+.access-deny { background: var(--mx-danger-bg); color: var(--mx-danger-fg); }
+
+.spinner { width: 16px; height: 16px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: mx-spin .7s linear infinite; display: inline-block; }
+@keyframes mx-spin { to { transform: rotate(360deg); } }
+
+/* Layout helpers. */
+.mx-cols { display: grid; gap: var(--mx-space-4); grid-template-columns: 1fr; }
+@media (min-width: 1100px) { .mx-cols.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mx-cols.side { grid-template-columns: 340px minmax(0, 1fr); } }
+.mt-4 { margin-top: var(--mx-space-4); }
+.mb-4 { margin-bottom: var(--mx-space-4); }
+.mb-2 { margin-bottom: var(--mx-space-2); }

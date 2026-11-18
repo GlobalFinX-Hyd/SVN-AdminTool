@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SvnAdmin.Api/SvnAdmin.Api.csproj" />
+  <Project Path="SvnAdmin.Tests/SvnAdmin.Tests.csproj" />
+</Solution>
