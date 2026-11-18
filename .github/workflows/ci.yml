@@ -29,8 +29,8 @@ jobs:
         working-directory: server
         run: dotnet test --configuration Release
 
-      - name: Use npm 11 (matches package-lock.json)
-        run: npm install -g npm@11
+      - name: Use npm 11.6.0 (the version that wrote package-lock.json)
+        run: npm install -g npm@11.6.0
 
       - name: Build UI
         working-directory: client
